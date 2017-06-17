@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ToDo{% endblock %}</title>
+    {% load staticfiles %}
+    <link type="text/css" href="base.css" rel="stylesheet">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-chartjs/2.6.4/vue-chartjs.full.min.js"></script>
+</head>
+<body>
+<nav class="class="navbar navbar-light" style="background-color: #e3f2fd;"">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+
+            </button>
+            <a class="navbar-brand" href="{% url 'todo:index' %}">Data Analytics</a>
+        </div>
+
+        <!-- İtems -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+            {% if user.is_authenticated %}
+            <li style="color:red;">
+                <a href="{% url 'todo:create' %}"> <span class="glyphicon glyphicon-pencil"></span>Add ToDo</a>
+            </li>
+            <li style="color:red;">
+                <a href="{% url 'todo:createbook' %}"> <span class="glyphicon glyphicon-pencil"></span>Add Books</a>
+            </li>
+
+            <li style="color:red;">
+                <a href="{% url 'todo:listbooks' %}"> <span class="glyphicon glyphicon-eye-open"></span> View Books</a>
+            </li>
+            <li style="color:red;">
+                <a href="{% url 'todo:dataframetest' %}"> <span class="glyphicon glyphicon-stats"></span> Analytics</a>
+            </li>            
+                {% endif %}
+            </ul>
+
+            <!-- Search -->
+            <form class="navbar-form navbar-left" role="search" method="post" action="{% url 'todo:search' %}">
+            {% csrf_token %}
+                <div class="form-group">
+                        <input type="text" class="form-control" name="search" value="" id="search">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+
+            <li style="color:red;">
+                <a href="{% url 'todo:profile' %}"> <span class="glyphicon glyphicon-user"></span> {{user.username}}</a>
+            </li>
+
+                <li style="color:red;">
+                <a href="{% url 'accounts:logout' %}"> <span class="glyphicon glyphicon-remove"></span>Logout</a>
+            </li>
+                {% else %}
+
+            <li style="color:red;">
+                <a href="{% url 'accounts:login' %}"> <span class="glyphicon glyphicon-user"></span>Login</a>
+            </li>
+                {% endif %}
+
+
+            </ul>
+
+
+
+        </div>
+
+
+    </div>
+</nav>
+{% block body %}
+{% endblock %}
+</body>
+</html>
